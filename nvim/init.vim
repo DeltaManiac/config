@@ -23,18 +23,32 @@ Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-"Completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Language Support
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+"Snippet support
+"Plug 'ncm2/ncm2-ultisnips'
+"Plug 'SirVer/ultisnips'
+
+" Rls Support
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+
+"Theme
+Plug 'chriskempson/base16-vim'
+Plug 'Soares/base16.nvim'
+" Completion plugins
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
+
 Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
 Plug 'rust-lang/rust.vim'
-"Plug 'fatih/vim-go'
 Plug 'dag/vim-fish'
-"Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 call plug#end()
@@ -68,6 +82,10 @@ let g:secure_modelines_allowed_items = [
                 \ "rightleft",   "rl",   "norightleft", "norl",
                 \ "colorcolumn"
                 \ ]
+"Theme
+set background=dark
+colorscheme base16-default-dark
+
 " Lightline
 " let g:lightline = { 'colorscheme': 'wombat' }
 let g:lightline = {
@@ -78,6 +96,7 @@ let g:lightline = {
 function! LightlineFilename()
   return expand('%:t') !=# '' ? @% : '[No Name]'
 endfunction
+
 
 " from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 if executable('ag')
@@ -118,12 +137,6 @@ let g:ale_sign_hint = "➤"
 
 nnoremap <silent> K :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
-"nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
-" Latex
-let g:latex_indent_enabled = 1
-let g:latex_fold_envs = 0
-let g:latex_fold_sections = []
 
 " Open hotkeys
 map <C-p> :Files<CR>
@@ -134,6 +147,12 @@ nmap <leader>w :w<CR>
 
 " Don't confirm .lvimrc
 let g:localvimrc_ask = 0
+
+" Language Client 
+let g:LanguageClient_autoStart=1
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
 
 " racer + rust
 " https://github.com/rust-lang/rust.vim/issues/192
@@ -146,9 +165,26 @@ let g:rust_clip_command = 'xclip -selection clipboard'
 "let g:racer_experimental_completer = 1
 let $RUST_SRC_PATH = systemlist("rustc --print sysroot")[0] . "/lib/rustlib/src/rust/src"
 
-
+" Completion
+set hidden
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Syntax 
 syntax on 
+
+
+" Snippet
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+"inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" c-j c-k for moving in snippet
+" let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+"let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+"let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+"let g:UltiSnipsRemoveSelectModeMappings = 0
 
 " =============================================================================
 " # EDITOR SETTINGS

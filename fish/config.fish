@@ -2,6 +2,7 @@ abbr -a ef 'nvim ~/.config/fish/config.fish'
 abbr -a ev 'nvim ~/.vimrc'
 abbr -a et 'nvim ~/.tmux.conf'
 abbr -a yr 'cal -y'
+abbr -a pr 'cd projects/rust'
 abbr -a c cargo
 abbr -a e nvim
 abbr -a vim nvim
