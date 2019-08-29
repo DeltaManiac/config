@@ -11,6 +11,7 @@ call plug#begin()
 Plug 'ciaranm/securemodelines'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'justinmk/vim-sneak'
+Plug 'scrooloose/nerdcommenter'
 
 " GUI enhancements
 Plug 'itchyny/lightline.vim'
@@ -137,6 +138,11 @@ let g:ale_sign_hint = "➤"
 
 nnoremap <silent> K :ALEHover<CR>
 nnoremap <silent> gd :ALEGoToDefinition<CR>
+
+"NERD Commenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDTrimTrailingWhitespace = 1
 
 " Open hotkeys
 map <C-p> :Files<CR>
